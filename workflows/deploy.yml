@@ -1,0 +1,27 @@
+yaml
+name: Deploy to S3
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write   # ← KEEP THIS LINE
+      contents: read
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::754151944709:role/github-actions-s3-deploy
+        aws-region: us-east-1   # ← Change region if needed
+
+    - name: Upload to S3
+      run: |
+        aws s3 sync ./ s3://cloudreality-s3/
