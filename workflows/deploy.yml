@@ -4,6 +4,8 @@ name: Deploy to S3
 on:
   push:
     branches: [ main ]
+    # Optionally, you can trigger on pull requests to 
+    # branches: [ main ]
 
 jobs:
   deploy:
